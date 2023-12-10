@@ -1,0 +1,202 @@
+[
+  {
+    "book_name": "Kitap 1",
+    "book_description": "Kitap 1 Açıklaması",
+    "book_page_count": 200,
+    "publisher_name": "Yayınevi 1",
+    "author_name": "Yazar 1",
+    "price": 25.99
+  },
+  {
+    "book_name": "Kitap 2",
+    "book_description": "Kitap 2 Açıklaması",
+    "book_page_count": 300,
+    "publisher_name": "Yayınevi 2",
+    "author_name": "Yazar 2",
+    "price": 29.99
+  },
+  {
+    "book_name": "Kitap 3",
+    "book_description": "Kitap 3 Açıklaması",
+    "book_page_count": 150,
+    "publisher_name": "Yayınevi 3",
+    "author_name": "Yazar 3",
+    "price": 19.99
+  },
+  {
+    "book_name": "Kitap 4",
+    "book_description": "Kitap 4 Açıklaması",
+    "book_page_count": 250,
+    "publisher_name": "Yayınevi 4",
+    "author_name": "Yazar 4",
+    "price": 24.99
+  },
+  {
+    "book_name": "Kitap 5",
+    "book_description": "Kitap 5 Açıklaması",
+    "book_page_count": 180,
+    "publisher_name": "Yayınevi 5",
+    "author_name": "Yazar 5",
+    "price": 21.99
+  },
+  {
+    "book_name": "Kitap 6",
+    "book_description": "Kitap 6 Açıklaması",
+    "book_page_count": 220,
+    "publisher_name": "Yayınevi 6",
+    "author_name": "Yazar 6",
+    "price": 27.99
+  },
+  {
+    "book_name": "Kitap 7",
+    "book_description": "Kitap 7 Açıklaması",
+    "book_page_count": 170,
+    "publisher_name": "Yayınevi 7",
+    "author_name": "Yazar 7",
+    "price": 22.99
+  },
+  {
+    "book_name": "Kitap 8",
+    "book_description": "Kitap 8 Açıklaması",
+    "book_page_count": 280,
+    "publisher_name": "Yayınevi 8",
+    "author_name": "Yazar 8",
+    "price": 31.99
+  },
+  {
+    "book_name": "Kitap 9",
+    "book_description": "Kitap 9 Açıklaması",
+    "book_page_count": 190,
+    "publisher_name": "Yayınevi 9",
+    "author_name": "Yazar 9",
+    "price": 23.99
+  },
+  {
+    "book_name": "Kitap 10",
+    "book_description": "Kitap 10 Açıklaması",
+    "book_page_count": 320,
+    "publisher_name": "Yayınevi 10",
+    "author_name": "Yazar 10",
+    "price": 34.99
+  },
+  {
+    "book_name": "Kitap 11",
+    "book_description": "Kitap 11 Açıklaması",
+    "book_page_count": 210,
+    "publisher_name": "Yayınevi 11",
+    "author_name": "Yazar 11",
+    "price": 26.99
+  },
+  {
+    "book_name": "Kitap 12",
+    "book_description": "Kitap 12 Açıklaması",
+    "book_page_count": 270,
+    "publisher_name": "Yayınevi 12",
+    "author_name": "Yazar 12",
+    "price": 30.99
+  },
+  {
+    "book_name": "Kitap 13",
+    "book_description": "Kitap 13 Açıklaması",
+    "book_page_count": 160,
+    "publisher_name": "Yayınevi 13",
+    "author_name": "Yazar 13",
+    "price": 20.99
+  },
+  {
+    "book_name": "Kitap 14",
+    "book_description": "Kitap 14 Açıklaması",
+    "book_page_count": 240,
+    "publisher_name": "Yayınevi 14",
+    "author_name": "Yazar 14",
+    "price": 25.99
+  },
+  {
+    "book_name": "Kitap 15",
+    "book_description": "Kitap 15 Açıklaması",
+    "book_page_count": 190,
+    "publisher_name": "Yayınevi 15",
+    "author_name": "Yazar 15",
+    "price": 21.99
+  },
+  {
+    "book_name": "Kitap 16",
+    "book_description": "Kitap 16 Açıklaması",
+    "book_page_count": 290,
+    "publisher_name": "Yayınevi 16",
+    "author_name": "Yazar 16",
+    "price": 28.99
+  },
+  {
+    "book_name": "Kitap 17",
+    "book_description": "Kitap 17 Açıklaması",
+    "book_page_count": 180,
+    "publisher_name": "Yayınevi 17",
+    "author_name": "Yazar 17",
+    "price": 22.99
+  },
+  {
+    "book_name": "Kitap 18",
+    "book_description": "Kitap 18 Açıklaması",
+    "book_page_count": 310,
+    "publisher_name": "Yayınevi 18",
+    "author_name": "Yazar 18",
+    "price": 33.99
+  },
+  {
+    "book_name": "Kitap 19",
+    "book_description": "Kitap 19 Açıklaması",
+    "book_page_count": 200,
+    "publisher_name": "Yayınevi 19",
+    "author_name": "Yazar 19",
+    "price": 24.99
+  },
+  {
+    "book_name": "Kitap 20",
+    "book_description": "Kitap 20 Açıklaması",
+    "book_page_count": 330,
+    "publisher_name": "Yayınevi 20",
+    "author_name": "Yazar 20",
+    "price": 35.99
+  },
+  {
+    "book_name": "Kitap 21",
+    "book_description": "Kitap 21 Açıklaması",
+    "book_page_count": 220,
+    "publisher_name": "Yayınevi 21",
+    "author_name": "Yazar 21",
+    "price": 27.99
+  },
+  {
+    "book_name": "Kitap 22",
+    "book_description": "Kitap 22 Açıklaması",
+    "book_page_count": 260,
+    "publisher_name": "Yayınevi 22",
+    "author_name": "Yazar 22",
+    "price": 29.99
+  },
+  {
+    "book_name": "Kitap 23",
+    "book_description": "Kitap 23 Açıklaması",
+    "book_page_count": 170,
+    "publisher_name": "Yayınevi 23",
+    "author_name": "Yazar 23",
+    "price": 23.99
+  },
+  {
+    "book_name": "Kitap 24",
+    "book_description": "Kitap 24 Açıklaması",
+    "book_page_count": 250,
+    "publisher_name": "Yayınevi 24",
+    "author_name": "Yazar 24",
+    "price": 31.99
+  },
+  {
+    "book_name": "Kitap 25",
+    "book_description": "Kitap 25 Açıklaması",
+    "book_page_count": 280,
+    "publisher_name": "Yayınevi 25",
+    "author_name": "Yazar 25",
+    "price": 32.99
+  }
+]
