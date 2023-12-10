@@ -48,6 +48,7 @@ public class UserConsumerConfig
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, UserInfo.class);
+
         props.put("spring.json.use.type.headers", false);
         return new DefaultKafkaConsumerFactory<>(props);
     }

@@ -2,7 +2,7 @@ package nuricanozturk.dev.service.order.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import nuricanozturk.dev.service.order.dto.UserOperationStatus;
+import nuricanozturk.dev.service.order.config.listenerdto.UserOperationStatus;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -44,26 +44,6 @@ public class User
         this.operationStatus = operationStatus;
     }
 
-    public UserOperationStatus getOperationStatus()
-    {
-        return operationStatus;
-    }
-
-    public void setOperationStatus(UserOperationStatus operationStatus)
-    {
-        this.operationStatus = operationStatus;
-    }
-
-    public Set<Order> getOrders()
-    {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders)
-    {
-        this.orders = orders;
-    }
-
     public UUID getUserId()
     {
         return userId;
@@ -92,5 +72,25 @@ public class User
     public void setBudget(double budget)
     {
         this.budget = budget;
+    }
+
+    public UserOperationStatus getOperationStatus()
+    {
+        return operationStatus;
+    }
+
+    public void setOperationStatus(UserOperationStatus operationStatus)
+    {
+        this.operationStatus = operationStatus;
+    }
+
+    public Set<Order> getOrders()
+    {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders)
+    {
+        this.orders = orders;
     }
 }

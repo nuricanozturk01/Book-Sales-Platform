@@ -65,6 +65,6 @@ public class OrderService
             throw new DataServiceException("User could not be found!");
 
         // Publish order info for stock service
-        m_orderKafkaProducer.publishOrderInfo(new OrderStockInfo());
+        m_orderKafkaProducer.publishOrderInfo(new OrderStockInfo(book.get().getBookId(), book.get().getBookName(), book.get().getBookStatus()));
     }
 }

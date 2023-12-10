@@ -2,6 +2,7 @@ package nuricanozturk.dev.service.order.config;
 
 import nuricanozturk.dev.service.order.config.producerdto.StockInfo;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.support.MessageBuilder;

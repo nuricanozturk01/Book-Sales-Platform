@@ -20,6 +20,7 @@ public class KafkaConsumer
     @KafkaListener(topics = "${spring.kafka.user-topic-name}", groupId = "${spring.kafka.consumer.user-group-id}", containerFactory = "configUserInfoKafkaListener")
     public void consumeUserInfo(UserInfo userInfo)
     {
+        System.err.println("User info consumed: " + userInfo);
         switch (userInfo.operationStatus())
         {
             case CREATE, UPDATE -> m_orderService.upsertUserUser(userInfo);
@@ -30,6 +31,7 @@ public class KafkaConsumer
     @KafkaListener(topics = "${spring.kafka.book-topic-name}", groupId = "${spring.kafka.consumer.book-group-id}", containerFactory = "configBookInfoKafkaListener")
     public void consumeBookInfo(BookInfo bookInfo)
     {
+        System.err.println("Book info consumed: " + bookInfo);
         switch (bookInfo.bookStatus())
         {
             case AVAILABLE -> m_orderService.upsertBook(bookInfo);
@@ -39,9 +41,11 @@ public class KafkaConsumer
     }
 
 
-    @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}", containerFactory = "configStockInfoKafkaListener")
+    @KafkaListener(topics = "${spring.kafka.stock-topic-name}",
+            groupId = "${spring.kafka.consumer.stock-group-id}",
+            containerFactory = "configStockInfoKafkaListener")
     public void consumeStockInfo(StockInfo stockInfo)
     {
-        //...
+        System.err.println(stockInfo);
     }
 }

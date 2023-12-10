@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class StockTopic
 {
     @Bean
-    public NewTopic provideStockTopic(@Value("${spring.kafka.stock-info-topic-name}") NewTopic m_stockTopic)
+    public NewTopic provideStockTopic(@Value("${spring.kafka.stock-info-topic-name}") String topicName)
     {
-        return TopicBuilder.name(m_stockTopic.name()).build();
+        return TopicBuilder.name(topicName).build();
     }
 }

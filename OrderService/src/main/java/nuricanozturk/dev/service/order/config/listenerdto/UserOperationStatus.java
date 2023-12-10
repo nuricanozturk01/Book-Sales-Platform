@@ -1,4 +1,4 @@
-package nuricanozturk.dev.data.usermanagement.dto;
+package nuricanozturk.dev.service.order.config.listenerdto;
 
 import java.io.Serializable;
 

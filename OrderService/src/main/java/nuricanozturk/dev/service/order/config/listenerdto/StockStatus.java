@@ -1,6 +1,6 @@
 package nuricanozturk.dev.service.order.config.listenerdto;
 
-public record StockInfo(
-        StockStatus stockStatus)
+public enum StockStatus
 {
+    DECREASE, INCREASE, FINISHED
 }

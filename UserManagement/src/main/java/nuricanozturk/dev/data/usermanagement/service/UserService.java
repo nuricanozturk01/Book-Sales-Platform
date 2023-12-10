@@ -39,7 +39,7 @@ public class UserService
         var savedUser = m_userServiceHelper.save(user);
 
         var userInfo = new UserInfo(savedUser.getUserId(), savedUser.getUsername(), savedUser.getBudget(), UserOperationStatus.CREATE);
-
+        System.err.println(userInfo);
         m_kafkaProducer.sendUserInfo(userInfo);
 
         return generateToken(user.getUsername());

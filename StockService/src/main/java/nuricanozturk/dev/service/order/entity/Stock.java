@@ -1,26 +1,18 @@
 package nuricanozturk.dev.service.order.entity;
 
-import jakarta.persistence.*;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.UUID;
 
-@Entity
-@Table(name = "stock")
+@Document(collection = "stock")
 public class Stock
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "stock_id")
-    private UUID stockId;
-
-    @Column(name = "book_id", nullable = false)
+    private String id;
     private UUID bookId;
-
-    @Column(name = "book_name", nullable = false)
     private String bookName;
-
-
-    @Column(name = "stock", nullable = false)
     private int stock;
 
     public Stock()
@@ -34,14 +26,14 @@ public class Stock
         this.stock = stock;
     }
 
-    public UUID getStockId()
+    public String getId()
     {
-        return stockId;
+        return id;
     }
 
-    public void setStockId(UUID stockId)
+    public void setId(String id)
     {
-        this.stockId = stockId;
+        this.id = id;
     }
 
     public UUID getBookId()
