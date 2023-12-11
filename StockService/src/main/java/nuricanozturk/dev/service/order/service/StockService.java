@@ -1,10 +1,12 @@
 package nuricanozturk.dev.service.order.service;
 
-import nuricanozturk.dev.service.order.config.KafkaStockProducer;
+import nuricanozturk.dev.service.order.config.StockKafkaProducer;
 import nuricanozturk.dev.service.order.config.listenerdto.BookStockInfo;
-import nuricanozturk.dev.service.order.config.listenerdto.OrderInfo;
+import nuricanozturk.dev.service.order.config.listenerdto.OrderStockInfo;
+import nuricanozturk.dev.service.order.config.producerdto.BookResponseInfo;
+import nuricanozturk.dev.service.order.config.producerdto.OrderResponseInfo;
 import nuricanozturk.dev.service.order.config.producerdto.StockInfo;
-import nuricanozturk.dev.service.order.dto.StockStatus;
+import nuricanozturk.dev.service.order.dto.BookStatus;
 import nuricanozturk.dev.service.order.entity.Stock;
 import nuricanozturk.dev.service.order.repository.IStockRepository;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,12 @@ import org.springframework.stereotype.Service;
 public class StockService
 {
     private final IStockRepository m_stockRepository;
-    private final KafkaStockProducer m_kafkaStockProducer;
+    private final StockKafkaProducer m_stockKafkaProducer;
 
-    public StockService(IStockRepository stockRepository, KafkaStockProducer kafkaStockProducer)
+    public StockService(IStockRepository stockRepository, StockKafkaProducer stockKafkaProducer)
     {
         m_stockRepository = stockRepository;
-        m_kafkaStockProducer = kafkaStockProducer;
+        m_stockKafkaProducer = stockKafkaProducer;
     }
 
     public void createBookStock(BookStockInfo bookInfo)
@@ -27,33 +29,35 @@ public class StockService
         m_stockRepository.save(book);
     }
 
-    public void checkStockAndCreateOrderResponse(OrderInfo orderInfo)
+    public void checkStockAndTryPayment(OrderStockInfo orderStockInfo)
     {
-        var stock = m_stockRepository.findByBookId(orderInfo.bookId());
+        var stock = m_stockRepository.findByBookId(orderStockInfo.bookId());
 
-        if (stock.isEmpty())
-            return;
-
-        if (stock.get().getStock() > 0)
+        if (stock.isEmpty() || stock.get().getStock() <= 0)
         {
-            stock.get().setStock(stock.get().getStock() - 1);
-            m_stockRepository.save(stock.get());
-            prepareOrderResponse(orderInfo, true);
+            failPayment(orderStockInfo);
+            return;
         }
-        else prepareOrderResponse(orderInfo, false);
+
+        // route to payment service
+        stock.get().reduceStock();
+        m_stockRepository.save(stock.get());
+        preparePayment(orderStockInfo);
     }
 
-    private void prepareOrderResponse(OrderInfo orderInfo, boolean isAvailable)
+    private void preparePayment(OrderStockInfo orderStockInfo)
     {
-        if (isAvailable)
-        {
-            var stockInfo = new StockInfo(StockStatus.DECREASE);
-            m_kafkaStockProducer.publishStockInfo(stockInfo);
-        }
-        else
-        {
-            var stockInfo = new StockInfo(StockStatus.FINISHED);
-            m_kafkaStockProducer.publishStockInfo(stockInfo);
-        }
+        var stockInfo = new StockInfo(orderStockInfo.userId(), orderStockInfo.bookId(), orderStockInfo.bookName(), orderStockInfo.price());
+        m_stockKafkaProducer.publishStockInfo(stockInfo);
+    }
+
+    // Send message to user service to fail order and send message to book service to finish book
+    private void failPayment(OrderStockInfo orderStockInfo)
+    {
+        var orderResponse = new OrderResponseInfo(orderStockInfo.userId(), orderStockInfo.bookId(), "OUT OF STOCK");
+        var bookResponse = new BookResponseInfo(orderStockInfo.bookId(), BookStatus.FINISHED);
+
+        m_stockKafkaProducer.publishOrderResponseInfo(orderResponse);
+        m_stockKafkaProducer.publishBookInfo(bookResponse);
     }
 }

@@ -2,6 +2,7 @@ package nuricanozturk.dev.service.order.config.kafka;
 
 import nuricanozturk.dev.service.order.config.producerDTO.OrderStockInfo;
 import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Service;
 public class OrderKafkaProducer
 {
     private final NewTopic m_OrderTopic;
+    //private final NewTopic m_stockTopic;
+
     private final KafkaTemplate<String, OrderStockInfo> m_kafkaProducer;
 
-    public OrderKafkaProducer(NewTopic orderTopic, KafkaTemplate<String, OrderStockInfo> kafkaProducer)
+    public OrderKafkaProducer(@Qualifier("kafka.topic.order-topic") NewTopic orderTopic, KafkaTemplate<String, OrderStockInfo> kafkaProducer)
     {
         m_OrderTopic = orderTopic;
         m_kafkaProducer = kafkaProducer;

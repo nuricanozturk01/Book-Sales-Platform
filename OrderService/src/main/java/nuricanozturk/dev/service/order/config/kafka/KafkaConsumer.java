@@ -23,7 +23,10 @@ public class KafkaConsumer
         System.err.println("User info consumed: " + userInfo);
         switch (userInfo.operationStatus())
         {
-            case CREATE, UPDATE -> m_orderService.upsertUserUser(userInfo);
+            case CREATE -> m_orderService.saveUser(userInfo);
+            case UPDATE -> m_orderService.updateUser(userInfo);
+            case REMOVE -> m_orderService.removeUser(userInfo);
+
             default -> throw new UnsupportedOperationException("Operation is not supported");
         }
     }
@@ -41,11 +44,9 @@ public class KafkaConsumer
     }
 
 
-    @KafkaListener(topics = "${spring.kafka.stock-topic-name}",
-            groupId = "${spring.kafka.consumer.stock-group-id}",
-            containerFactory = "configStockInfoKafkaListener")
+    @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}", containerFactory = "configStockInfoKafkaListener")
     public void consumeStockInfo(StockInfo stockInfo)
     {
-        System.err.println(stockInfo);
+        //m_orderService.removeBookByBookId(stockInfo.bookId());
     }
 }

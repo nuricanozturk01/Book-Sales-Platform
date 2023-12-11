@@ -52,4 +52,9 @@ public class OrderServiceHelper
     {
         return doForRepository(() -> m_userRepository.findById(userId), "User could not be found!");
     }
+
+    public void removeUser(User user)
+    {
+        doForRepository(() -> m_userRepository.delete(user), "User could not be removed!");
+    }
 }

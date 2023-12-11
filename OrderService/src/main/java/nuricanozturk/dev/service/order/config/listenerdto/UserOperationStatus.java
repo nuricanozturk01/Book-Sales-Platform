@@ -4,5 +4,5 @@ import java.io.Serializable;
 
 public enum UserOperationStatus implements Serializable
 {
-    CREATE, UPDATE
+    CREATE, UPDATE, REMOVE
 }

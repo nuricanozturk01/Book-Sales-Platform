@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.order.config.kafka;
 
 import nuricanozturk.dev.service.order.config.listenerdto.StockInfo;
+import nuricanozturk.dev.service.order.config.producerDTO.OrderStockInfo;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;

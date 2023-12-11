@@ -1,4 +1,4 @@
-package nuricanozturk.dev.service.order.config;
+package nuricanozturk.dev.service.payment.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,10 +7,10 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StockTopic
+public class TopicProvider
 {
     @Bean
-    public NewTopic provideStockTopic(@Value("${spring.kafka.stock-info-topic-name}") String topicName)
+    public NewTopic providePaymentTopic(@Value("${spring.kafka.payment-topic-name}") String topicName)
     {
         return TopicBuilder.name(topicName).build();
     }

@@ -21,6 +21,7 @@ public class ProducerKafka
 
     public void sendBookInfo(BookInfo bookInfo)
     {
+        System.err.println("Sending book info to kafka: " + bookInfo);
         var message = MessageBuilder.
                 withPayload(bookInfo).
                 setHeader(KafkaHeaders.TOPIC, m_bookTopic.name())

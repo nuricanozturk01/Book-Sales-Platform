@@ -44,7 +44,10 @@ public class BookService
         var book = m_bookMapper.toBook(bookSaveDTO);
 
         var savedBook = doForDataService(() -> m_serviceHelper.saveBook(book), "BookService.saveBook");
-        m_producerKafka.sendBookInfo(new BookInfo(savedBook.getBookId(), savedBook.getBookName(), savedBook.getBookIsbn(), savedBook.getPrice(), savedBook.getBookStatus()));
+
+        m_producerKafka.sendBookInfo(new BookInfo(savedBook.getBookId(), savedBook.getBookName(), savedBook.getBookIsbn(),
+                savedBook.getPrice(), savedBook.getBookStatus(), bookSaveDTO.stock()));
+
         return m_bookMapper.toBookDTO(savedBook);
     }
 
@@ -116,6 +119,4 @@ public class BookService
         doForDataService(() -> m_serviceHelper.deleteBookById(bookId), "BookService.removeBook");
         return true;
     }
-
-
 }

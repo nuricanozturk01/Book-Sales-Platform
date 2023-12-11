@@ -20,7 +20,6 @@ public class BookRepositoryServiceHelper
     private final IBookRepository m_bookRepository;
 
 
-
     public BookRepositoryServiceHelper(IBookRepository bookRepository)
     {
         m_bookRepository = bookRepository;
@@ -31,7 +30,6 @@ public class BookRepositoryServiceHelper
         book.setAuthorName(convert(book.getAuthorName()));
         book.setPublisherName(convert(book.getPublisherName()));
         book.setBookName(convert(book.getBookName()));
-
         return m_bookRepository.save(book);
     }
 

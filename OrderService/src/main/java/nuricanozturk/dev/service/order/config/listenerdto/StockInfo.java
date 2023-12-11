@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.order.config.listenerdto;
 
-public record StockInfo(
-        StockStatus stockStatus)
+import java.util.UUID;
+
+public record StockInfo(UUID userId, UUID bookId, String message)
 {
 }

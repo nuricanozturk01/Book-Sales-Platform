@@ -13,6 +13,7 @@ public record BookSaveDTO(
         String publisherName,
         @JsonProperty("author_name")
         String authorName,
-        double price)
+        double price,
+        int stock)
 {
 }

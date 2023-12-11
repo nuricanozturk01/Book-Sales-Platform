@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.book.entity;
 
 import jakarta.persistence.*;
+import nuricanozturk.dev.service.book.dto.BookStatus;
 
 import java.util.UUID;
 

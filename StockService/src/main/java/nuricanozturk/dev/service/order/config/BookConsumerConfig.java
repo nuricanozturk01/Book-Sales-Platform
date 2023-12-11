@@ -40,16 +40,15 @@ public class BookConsumerConfig
     @Bean
     public ConsumerFactory<String, BookStockInfo> bookInfoConsumerConfig()
     {
-        var props = new HashMap<String, Object>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, m_servers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, m_bookGroupId);
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, m_offsetResetConfig);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
-        props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, BookStockInfo.class);
-        // props.put(JsonDeserializer.TRUSTED_PACKAGES, "nuricanozturk.dev.data.usermanagement.dto.UserInfo");
-        props.put("spring.json.use.type.headers", false);
-        return new DefaultKafkaConsumerFactory<>(props);
+        var bookInfoProperties = new HashMap<String, Object>();
+        bookInfoProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, m_servers);
+        bookInfoProperties.put(ConsumerConfig.GROUP_ID_CONFIG, m_bookGroupId);
+        bookInfoProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, m_offsetResetConfig);
+        bookInfoProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        bookInfoProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+        bookInfoProperties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
+        bookInfoProperties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, BookStockInfo.class);
+        bookInfoProperties.put("spring.json.use.type.headers", false);
+        return new DefaultKafkaConsumerFactory<>(bookInfoProperties);
     }
 }

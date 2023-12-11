@@ -30,10 +30,21 @@ public class OrderService
         m_bookMapper = bookMapper;
     }
 
-    public void upsertUserUser(UserInfo userInfo)
+    public void saveUser(UserInfo userInfo)
     {
         var user = m_userMapper.toUser(userInfo);
         doForDataService(() -> m_orderServiceHelper.saveUser(user), "User could not be saved!");
+    }
+
+    public void updateUser(UserInfo userInfo)
+    {
+        var user = m_orderServiceHelper.findUserById(m_userMapper.toUser(userInfo).getUserId());
+
+        if (user.isEmpty())
+            throw new DataServiceException("User could not be found!");
+        user.get().setBudget(userInfo.budget());
+        user.get().setOperationStatus(userInfo.operationStatus());
+        doForDataService(() -> m_orderServiceHelper.saveUser(user.get()), "User could not be saved!");
     }
 
     public void upsertBook(BookInfo bookInfo)
@@ -53,6 +64,16 @@ public class OrderService
         m_orderServiceHelper.removeBook(book.get());
     }
 
+    public void removeBookByBookId(UUID bookId)
+    {
+        var book = doForDataService(() -> m_orderServiceHelper.findBookById(bookId), "OrderService::removeBook");
+
+        if (book.isEmpty())
+            throw new DataServiceException("Book could not be found!");
+
+        m_orderServiceHelper.removeBook(book.get());
+    }
+
     public void buyBook(UUID bookId, UUID userId)
     {
         var user = doForDataService(() -> m_orderServiceHelper.findUserById(userId), "OrderService::buyUser");
@@ -65,6 +86,16 @@ public class OrderService
             throw new DataServiceException("User could not be found!");
 
         // Publish order info for stock service
-        m_orderKafkaProducer.publishOrderInfo(new OrderStockInfo(book.get().getBookId(), book.get().getBookName(), book.get().getBookStatus()));
+        m_orderKafkaProducer.publishOrderInfo(new OrderStockInfo(userId, bookId, book.get().getBookName(), book.get().getBookStatus(), book.get().getPrice()));
+    }
+
+    public void removeUser(UserInfo userInfo)
+    {
+        var user = doForDataService(() -> m_orderServiceHelper.findUserById(userInfo.userId()), "OrderService::removeUser");
+
+        if (user.isEmpty())
+            throw new DataServiceException("User could not be found!");
+
+        m_orderServiceHelper.removeUser(user.get());
     }
 }

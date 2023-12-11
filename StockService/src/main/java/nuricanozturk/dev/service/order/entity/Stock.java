@@ -26,6 +26,11 @@ public class Stock
         this.stock = stock;
     }
 
+    public void reduceStock()
+    {
+        stock--;
+    }
+
     public String getId()
     {
         return id;

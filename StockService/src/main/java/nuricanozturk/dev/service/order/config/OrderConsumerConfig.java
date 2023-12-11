@@ -1,6 +1,6 @@
 package nuricanozturk.dev.service.order.config;
 
-import nuricanozturk.dev.service.order.config.listenerdto.OrderInfo;
+import nuricanozturk.dev.service.order.config.listenerdto.OrderStockInfo;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,25 +30,25 @@ public class OrderConsumerConfig
 
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, OrderInfo> configOrderInfoKafkaListener()
+    public ConcurrentKafkaListenerContainerFactory<String, OrderStockInfo> configOrderInfoKafkaListener()
     {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, OrderInfo>();
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, OrderStockInfo>();
         factory.setConsumerFactory(orderInfoConsumerConfig());
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<String, OrderInfo> orderInfoConsumerConfig()
+    public ConsumerFactory<String, OrderStockInfo> orderInfoConsumerConfig()
     {
-        var props = new HashMap<String, Object>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, m_servers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, m_orderGroupId);
-        props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, m_offsetResetConfig);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
-        props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, OrderInfo.class);
-        props.put("spring.json.use.type.headers", false);
-        return new DefaultKafkaConsumerFactory<>(props);
+        var orderInfoProperties = new HashMap<String, Object>();
+        orderInfoProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, m_servers);
+        orderInfoProperties.put(ConsumerConfig.GROUP_ID_CONFIG, m_orderGroupId);
+        orderInfoProperties.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, m_offsetResetConfig);
+        orderInfoProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        orderInfoProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+        orderInfoProperties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
+        orderInfoProperties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, OrderStockInfo.class);
+        orderInfoProperties.put("spring.json.use.type.headers", false);
+        return new DefaultKafkaConsumerFactory<>(orderInfoProperties);
     }
 }

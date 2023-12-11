@@ -1,7 +1,7 @@
 package nuricanozturk.dev.service.book.config;
 
-import nuricanozturk.dev.service.book.config.listener.StockListener;
 import nuricanozturk.dev.service.book.dal.BookRepositoryServiceHelper;
+import nuricanozturk.dev.service.book.config.listener.BookResponseInfo;
 import nuricanozturk.dev.service.book.entity.Book;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,16 @@ public class KafkaConsumer
         m_serviceHelper = serviceHelper;
     }
 
-    private void updateBookStatus(StockListener stockListener, Book book)
+    private void updateBookStatus(BookResponseInfo bookResponseInfo, Book book)
     {
-        book.setBookStatus(stockListener.stock());
+        book.setBookStatus(bookResponseInfo.bookStatus());
         m_serviceHelper.saveBook(book);
     }
 
     @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}")
-    public void consumeStock(StockListener stockListener)
+    public void consumeStock(BookResponseInfo bookResponseInfo)
     {
-        var bookOpt = m_serviceHelper.findBookById(stockListener.bookId());
-        bookOpt.ifPresentOrElse(book -> updateBookStatus(stockListener, book), () -> System.err.println("Book not found"));
+        var bookOpt = m_serviceHelper.findBookById(bookResponseInfo.bookId());
+        bookOpt.ifPresentOrElse(book -> updateBookStatus(bookResponseInfo, book), System.err::println);
     }
 }

@@ -7,7 +7,8 @@ public record BookInfo(
         String bookName,
         UUID bookIsbn,
         double price,
-        BookStatus bookStatus
+        BookStatus bookStatus,
+        int stock
 )
 {
 }
