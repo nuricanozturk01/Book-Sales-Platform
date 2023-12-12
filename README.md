@@ -11,7 +11,8 @@ client-server communication, and Apache Kafka for handling message streams betwe
 
 ## System Architecture Diagram
 
-![System Architecture](../images/architecture.png)
+![diagram](https://github.com/nuricanozturk01/Book-Sales-Platform/assets/62218588/55e75632-2b7b-4626-bd59-f76f0e190a4b)
+
 
 
 ## Components Description
