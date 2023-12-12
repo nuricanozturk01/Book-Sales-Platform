@@ -19,7 +19,7 @@ public class TopicProvider
         return TopicBuilder.name(topicName).build();
     }
 
-    @Bean(STOCK_BOOK_TOPIC)
+/*    @Bean(STOCK_BOOK_TOPIC)
     public NewTopic provideStockBookTopic(@Value("${spring-kafka-book-status-topic-name}") String topicName)
     {
         return TopicBuilder.name(topicName).build();
@@ -29,5 +29,5 @@ public class TopicProvider
     public NewTopic provideOrderTopic(@Value("${spring-kafka-order-status-topic-name}") String topicName)
     {
         return TopicBuilder.name(topicName).build();
-    }
+    }*/
 }

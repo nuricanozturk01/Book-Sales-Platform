@@ -22,10 +22,10 @@ public class KafkaConsumer
         m_serviceHelper.saveBook(book);
     }
 
-    @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}")
+  /*  @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}")
     public void consumeStock(BookResponseInfo bookResponseInfo)
     {
         var bookOpt = m_serviceHelper.findBookById(bookResponseInfo.bookId());
         bookOpt.ifPresentOrElse(book -> updateBookStatus(bookResponseInfo, book), System.err::println);
-    }
+    }*/
 }
