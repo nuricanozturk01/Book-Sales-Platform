@@ -2,6 +2,7 @@ package nuricanozturk.dev.service.book.service;
 
 
 import nuricanozturk.dev.service.book.config.ProducerKafka;
+import nuricanozturk.dev.service.book.config.listener.StockInfo;
 import nuricanozturk.dev.service.book.dal.BookRepositoryServiceHelper;
 import nuricanozturk.dev.service.book.dto.BookInfo;
 import nuricanozturk.dev.service.book.dto.BookSaveDTO;
@@ -47,6 +48,9 @@ public class BookService
 
         m_producerKafka.sendBookInfo(new BookInfo(savedBook.getBookId(), savedBook.getBookName(), savedBook.getBookIsbn(),
                 savedBook.getPrice(), savedBook.getBookStatus(), bookSaveDTO.stock()));
+
+        m_producerKafka.sendLog(String.format("Book with id [%s], name: [%s], stock: [%d], price: $[%.2f] has been added",
+                savedBook.getBookId().toString(), savedBook.getBookName(), bookSaveDTO.stock(), bookSaveDTO.price()));
 
         return m_bookMapper.toBookDTO(savedBook);
     }
@@ -114,9 +118,12 @@ public class BookService
         return m_bookMapper.toBooksViewDTO(toList(books, m_bookMapper::toBookDTO));
     }
 
-    public boolean removeBook(UUID bookId)
+    public boolean removeBook(StockInfo stockInfo)
     {
-        doForDataService(() -> m_serviceHelper.deleteBookById(bookId), "BookService.removeBook");
+        doForDataService(() -> m_serviceHelper.deleteBookById(stockInfo.bookId()), "BookService.removeBook");
+
+        m_producerKafka.sendLog(String.format("Book with id [%s], name: [%s], stock: [%d] has been removed cause: [%s]",
+                stockInfo.bookId().toString(), stockInfo.bookName(), 0, stockInfo.message()));
         return true;
     }
 }

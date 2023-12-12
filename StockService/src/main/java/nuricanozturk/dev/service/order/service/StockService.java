@@ -9,6 +9,8 @@ import nuricanozturk.dev.service.order.entity.Stock;
 import nuricanozturk.dev.service.order.repository.IStockRepository;
 import org.springframework.stereotype.Service;
 
+import static java.lang.String.format;
+
 @Service
 public class StockService
 {
@@ -24,6 +26,8 @@ public class StockService
     public void createBookStock(BookStockInfo bookInfo)
     {
         var book = new Stock(bookInfo.bookId(), bookInfo.bookName(), bookInfo.stock());
+        m_stockKafkaProducer.sendLog(format("STOCK-SERVICE - Book created: [%s] book: [%s], stock: [%s]",
+                bookInfo.bookId(), bookInfo.bookName(), bookInfo.stock()));
         m_stockRepository.save(book);
     }
 
@@ -49,6 +53,9 @@ public class StockService
         var stockInfo = new StockInfo(orderStockInfo.userId(), orderStockInfo.bookId(), orderStockInfo.bookName(), orderStockInfo.price(),
                 BookStatus.AVAILABLE, "available on stock!");
         m_stockKafkaProducer.publishStockInfo(stockInfo);
+        m_stockKafkaProducer.sendLog(format("STOCK-SERVICE - Payment prepared for Order: [%s] user: [%s], book: [%s]",
+                orderStockInfo.orderId(), orderStockInfo.userId(), orderStockInfo.bookId()));
+
     }
 
     // Send message to user service to fail order and send message to book service to finish book
@@ -59,5 +66,7 @@ public class StockService
 
         m_stockKafkaProducer.publishStockOrderInfo(stockInfo);
         m_stockKafkaProducer.publishBookStatusInfo(stockInfo);
+        m_stockKafkaProducer.sendLog(format("STOCK-SERVICE - Payment failed for Order: [%s] user: [%s], book: [%s]",
+                orderStockInfo.orderId(), orderStockInfo.userId(), orderStockInfo.bookId()));
     }
 }

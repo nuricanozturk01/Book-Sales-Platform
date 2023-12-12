@@ -1,7 +1,6 @@
 package nuricanozturk.dev.service.notification.config.kafka.consumer;
 
 import nuricanozturk.dev.service.notification.dto.NotificationSaveDTO;
-import nuricanozturk.dev.service.notification.dto.PaymentStatus;
 import nuricanozturk.dev.service.notification.notificationservice.NotificationService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,12 @@ public class KafkaConsumer
             containerFactory = "configOrderInfoKafkaListener")
     public void consumeOrderStockInfo(StockInfo stockInfo)
     {
-        if (stockInfo.bookStatus() == BookStatus.FINISHED) {
+        if (stockInfo.bookStatus() == BookStatus.FINISHED)
+        {
             var saveDTO = new NotificationSaveDTO(stockInfo.userId(),
                     stockInfo.bookId(),
                     stockInfo.bookName(),
-                    PaymentStatus.FAIL, 0, -1);
+                    EPaymentStatus.FAIL, 0, -1, stockInfo.message());
 
             m_notificationService.saveNotification(saveDTO);
             System.err.println(saveDTO);
@@ -41,8 +41,8 @@ public class KafkaConsumer
         var saveDTO = new NotificationSaveDTO(paymentInfo.userId(),
                 paymentInfo.bookId(),
                 paymentInfo.bookName(),
-                PaymentStatus.SUCCESS, paymentInfo.cost(),
-                paymentInfo.availableBalance());
+                paymentInfo.paymentStatus(), paymentInfo.cost(),
+                paymentInfo.availableBalance(), paymentInfo.message());
 
         m_notificationService.saveNotification(saveDTO);
         System.err.println(saveDTO);

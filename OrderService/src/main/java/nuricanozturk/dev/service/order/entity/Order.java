@@ -17,8 +17,27 @@ public class Order
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "book_id")
+    private UUID bookId;
+
     public Order()
     {
+    }
+
+    public Order(User user, UUID bookId)
+    {
+        this.user = user;
+        this.bookId = bookId;
+    }
+
+    public UUID getBookId()
+    {
+        return bookId;
+    }
+
+    public void setBookId(UUID bookId)
+    {
+        this.bookId = bookId;
     }
 
     public Order(User user)

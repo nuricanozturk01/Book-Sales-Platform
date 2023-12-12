@@ -1,9 +1,12 @@
 package nuricanozturk.dev.service.notification.dto;
 
+import nuricanozturk.dev.service.notification.config.kafka.consumer.EPaymentStatus;
+
 import java.util.UUID;
 
 public record NotificationSaveDTO(UUID userId, UUID bookId, String bookName,
-                                  PaymentStatus paymentStatus, double cost, double availableBalance)
+                                  EPaymentStatus paymentStatus, double cost, double availableBalance,
+                                  String message)
 {
     @Override
     public String toString()
@@ -13,6 +16,7 @@ public record NotificationSaveDTO(UUID userId, UUID bookId, String bookName,
                 "Book Id: " + bookId + "\n" +
                 "Book Name: " + bookName + "\n" +
                 "Cost: " + cost + "\n" +
-                "Available Balance: " + availableBalance + "\n";
+                "Available Balance: " + availableBalance + "\n" +
+                "Message: " + message + "\n";
     }
 }

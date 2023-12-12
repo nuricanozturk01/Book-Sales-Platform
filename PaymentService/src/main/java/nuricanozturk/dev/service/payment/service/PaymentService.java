@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 import static callofproject.dev.library.exception.util.CopDataUtil.doForDataService;
+import static java.lang.String.format;
 
 @Service
 public class PaymentService
@@ -54,6 +55,7 @@ public class PaymentService
         user.setBudget(userInfo.budget());
 
         doForDataService(() -> m_userRepository.save(user), "PaymentService::updateUser");
+        m_paymentProducer.publishLog(format("PAYMENT-SERVICE: User with id [%s] budget has been updated", user.getUserId().toString()));
     }
 
     public void removeUser(UserInfo userInfo)
@@ -66,8 +68,11 @@ public class PaymentService
     {
         var user = findUserIfExists(stockInfo.userId());
 
-        if (user.getBudget() < stockInfo.price())
+        if (user.getBudget() < stockInfo.price() || user.getBudget() - stockInfo.price() < 0)
+        {
             rejectPayment(stockInfo, user);
+            return;
+        }
 
         // set new budget
         user.setBudget(user.getBudget() - stockInfo.price());
@@ -76,8 +81,11 @@ public class PaymentService
         doForDataService(() -> m_paymentRepository.save(payment), "PaymentService::payment::pay");
         doForDataService(() -> m_userRepository.save(user), "PaymentService::user::pay");
 
-        var paymentInfo = new PaymentInfo(user.getUserId(), stockInfo.bookId(), stockInfo.bookName(), stockInfo.price(), user.getBudget());
+        var paymentInfo = new PaymentInfo(user.getUserId(), stockInfo.bookId(), stockInfo.bookName(), stockInfo.price(), user.getBudget(),
+                EPaymentStatus.SUCCESS, "Payment successful!");
         m_paymentProducer.publishPaymentInfo(paymentInfo);
+        m_paymentProducer.publishLog(format("PAYMENT-SERVICE: Payment Successful for user with id [%s] for book with id [%s] and name [%s]",
+                user.getUserId().toString(), stockInfo.bookId().toString(), stockInfo.bookName()));
     }
 
     private void rejectPayment(StockInfo stockInfo, User user)
@@ -85,7 +93,11 @@ public class PaymentService
         var payment = new Payment(stockInfo.bookId(), stockInfo.bookName(), stockInfo.price(), EPaymentStatus.FAIL, user);
         doForDataService(() -> m_paymentRepository.save(payment), "PaymentService::payment::pay");
 
-        var paymentInfo = new PaymentInfo(user.getUserId(), stockInfo.bookId(), stockInfo.bookName(), stockInfo.price(), user.getBudget());
+        var paymentInfo = new PaymentInfo(user.getUserId(), stockInfo.bookId(), stockInfo.bookName(), stockInfo.price(),
+                user.getBudget(), EPaymentStatus.FAIL, "Payment failed!");
+
         m_paymentProducer.publishPaymentInfo(paymentInfo);
+        m_paymentProducer.publishLog(format("PAYMENT-SERVICE: Payment Rejected for user with id [%s] for book with id [%s] and name [%s]",
+                user.getUserId().toString(), stockInfo.bookId().toString(), stockInfo.bookName()));
     }
 }

@@ -1,0 +1,15 @@
+.log-tracker-container {
+  font-family: Lato, "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+  height: 90vh;
+  margin-top: 30px;
+  margin-left: 15px !important;
+  margin-right: 15px !important;
+  border-radius: .28571429rem;
+  border: 1px solid rgb(9, 92, 22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1rem;
+  overflow-y: auto;
+}
+

@@ -32,8 +32,7 @@ public class KafkaConsumer
     @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}", containerFactory = "configStockInfoKafkaListener")
     public void doPayment(StockInfo stockInfo)
     {
-        System.err.println("Stock info: " + stockInfo);
-
+        //System.err.println("Stock info: " + stockInfo);
         m_paymentService.pay(stockInfo);
     }
 }

@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.order.dal;
 
 import nuricanozturk.dev.service.order.entity.Book;
+import nuricanozturk.dev.service.order.entity.Order;
 import nuricanozturk.dev.service.order.entity.User;
 import nuricanozturk.dev.service.order.repository.IBookRepository;
 import nuricanozturk.dev.service.order.repository.IOrderRepository;
@@ -26,6 +27,11 @@ public class OrderServiceHelper
         m_userRepository = userRepository;
         m_orderRepository = orderRepository;
         m_bookRepository = bookRepository;
+    }
+
+    public Order saveOrder(Order order)
+    {
+        return doForRepository(() -> m_orderRepository.save(order), "Order could not be saved!");
     }
 
     public User saveUser(User userInfo)

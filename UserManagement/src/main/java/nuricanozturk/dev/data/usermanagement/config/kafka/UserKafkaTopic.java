@@ -17,9 +17,9 @@ public class UserKafkaTopic
         return TopicBuilder.name(topicName).build();
     }
 
-   /* @Bean("user-payment-topic")
-    public NewTopic providePaymentTopic(@Value("${spring.kafka.user-payment-topic-name}") String topicName)
+    @Bean("log-topic")
+    public NewTopic providePaymentTopic(@Value("log-producer-topic") String topicName)
     {
         return TopicBuilder.name(topicName).build();
-    }*/
+    }
 }

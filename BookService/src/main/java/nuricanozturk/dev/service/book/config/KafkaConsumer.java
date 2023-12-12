@@ -1,16 +1,16 @@
 package nuricanozturk.dev.service.book.config;
 
 import nuricanozturk.dev.service.book.config.listener.StockInfo;
-import nuricanozturk.dev.service.book.dal.BookRepositoryServiceHelper;
+import nuricanozturk.dev.service.book.service.BookService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaConsumer
 {
-    private final BookRepositoryServiceHelper m_serviceHelper;
+    private final BookService m_serviceHelper;
 
-    public KafkaConsumer(BookRepositoryServiceHelper serviceHelper)
+    public KafkaConsumer(BookService serviceHelper)
     {
         m_serviceHelper = serviceHelper;
     }
@@ -19,6 +19,5 @@ public class KafkaConsumer
     public void consumeStock(StockInfo stockInfo)
     {
         m_serviceHelper.removeBook(stockInfo);
-        System.err.println("Stock info: " + stockInfo);
     }
 }

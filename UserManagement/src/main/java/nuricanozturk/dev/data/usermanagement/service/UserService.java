@@ -41,6 +41,7 @@ public class UserService
         var userInfo = new UserInfo(savedUser.getUserId(), savedUser.getUsername(), savedUser.getBudget(), UserOperationStatus.CREATE);
         System.err.println(userInfo);
         m_kafkaProducer.sendUserInfo(userInfo);
+        m_kafkaProducer.sendUserInfo("Created user: " + userInfo);
 
         return generateToken(user.getUsername());
     }

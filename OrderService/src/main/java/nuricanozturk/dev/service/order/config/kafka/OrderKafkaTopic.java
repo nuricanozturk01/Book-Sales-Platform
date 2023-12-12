@@ -10,8 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderKafkaTopic
 {
-    @Bean("kafka.topic.order-topic")
-    @Primary
+    @Bean
     public NewTopic provideOrderTopic(@Value("${spring.kafka.order-topic-name}") String topicName)
     {
         return TopicBuilder.name(topicName).build();

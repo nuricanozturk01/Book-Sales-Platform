@@ -6,6 +6,7 @@ import nuricanozturk.dev.service.order.config.listenerdto.BookInfo;
 import nuricanozturk.dev.service.order.config.listenerdto.UserInfo;
 import nuricanozturk.dev.service.order.config.producerDTO.OrderStockInfo;
 import nuricanozturk.dev.service.order.dal.OrderServiceHelper;
+import nuricanozturk.dev.service.order.entity.Order;
 import nuricanozturk.dev.service.order.mapper.IBookMapper;
 import nuricanozturk.dev.service.order.mapper.IUserMapper;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,8 @@ public class OrderService
     {
         var book = m_bookMapper.toBook(bookInfo);
         doForDataService(() -> m_orderServiceHelper.saveBook(book), "User could not be saved!");
+        m_orderKafkaProducer.sendLog(String.format("ORDER-SERVICE: Book with id [%s], name: [%s], stock: [%d], price: $[%.2f] has been added",
+                book.getBookId().toString(), book.getBookName(), bookInfo.stock(), bookInfo.price()));
     }
 
 
@@ -61,6 +64,9 @@ public class OrderService
             throw new DataServiceException("Book could not be found!");
 
         m_orderServiceHelper.removeBook(book.get());
+
+        m_orderKafkaProducer.sendLog(String.format("ORDER-SERVICE: Book with id [%s], name: [%s], stock: [%d], price: $[%.2f] has been removed",
+                book.get().getBookId().toString(), book.get().getBookName(), 0, book.get().getPrice()));
     }
 
     public void removeBookByBookId(UUID bookId)
@@ -69,7 +75,8 @@ public class OrderService
 
         if (book.isEmpty())
             throw new DataServiceException("Book could not be found!");
-
+        m_orderKafkaProducer.sendLog(String.format("ORDER-SERVICE: Book with id [%s], name: [%s], stock: [%d], price: $[%.2f] has been removed",
+                book.get().getBookId().toString(), book.get().getBookName(), 0, book.get().getPrice()));
         m_orderServiceHelper.removeBook(book.get());
     }
 
@@ -85,8 +92,13 @@ public class OrderService
         if (user.isEmpty())
             throw new DataServiceException("User could not be found!");
 
+        var savedOrder = m_orderServiceHelper.saveOrder(new Order(user.get(), book.get().getBookId()));
+
         // Publish order info for stock service
-        m_orderKafkaProducer.publishOrderInfo(new OrderStockInfo(userId, bookId, book.get().getBookName(), book.get().getBookStatus(), book.get().getPrice()));
+        m_orderKafkaProducer.publishOrderInfo(new OrderStockInfo(savedOrder.getOrderId(), userId, bookId, book.get().getBookName(), book.get().getBookStatus(), book.get().getPrice()));
+        // Log order info
+        m_orderKafkaProducer.sendLog(String.format("ORDER-SERVICE - [ORDER]: user id: [%s] book id [%s], name: [%s], count: [%d], price: $[%.2f] has been ordered",
+                userId, bookId, book.get().getBookName(), 1, book.get().getPrice()));
     }
 
     public void removeUser(UserInfo userInfo)

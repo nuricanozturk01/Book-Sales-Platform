@@ -3,6 +3,7 @@ package nuricanozturk.dev.service.order.config;
 import nuricanozturk.dev.service.order.config.producerdto.StockInfo;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.support.MessageBuilder;
@@ -18,16 +19,21 @@ public class StockKafkaProducer
     private final NewTopic m_stockOrderTopic;
 
     private final NewTopic m_bookStatusTopic;
+
+    @Value("${spring.kafka.log-topic-name}")
+    private String m_logTopic;
+    private final KafkaTemplate<String, String> m_logKafkaProducer;
     private final KafkaTemplate<String, StockInfo> m_kafkaProducer;
 
     public StockKafkaProducer(@Qualifier(ORDER_STATUS_TOPIC) NewTopic stockOrderTopic,
                               @Qualifier(BOOK_STATUS_TOPIC) NewTopic bookStatusTopic,
-                              NewTopic stockTopic,
+                              NewTopic stockTopic, KafkaTemplate<String, String> logKafkaProducer,
                               KafkaTemplate<String, StockInfo> kafkaProducer)
     {
         m_stockTopic = stockTopic;
         m_stockOrderTopic = stockOrderTopic;
         m_bookStatusTopic = bookStatusTopic;
+        m_logKafkaProducer = logKafkaProducer;
         m_kafkaProducer = kafkaProducer;
     }
 
@@ -59,5 +65,10 @@ public class StockKafkaProducer
                 .build();
 
         m_kafkaProducer.send(message);
+    }
+
+    public void sendLog(String log)
+    {
+        m_logKafkaProducer.send(m_logTopic, log);
     }
 }
