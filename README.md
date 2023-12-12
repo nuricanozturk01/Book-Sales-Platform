@@ -14,10 +14,10 @@ client-server communication, and Apache Kafka for handling message streams betwe
 ![diagram](https://github.com/nuricanozturk01/Book-Sales-Platform/assets/62218588/55e75632-2b7b-4626-bd59-f76f0e190a4b)
 
 ## Demo Video
-
-
+### Notification
 https://github.com/nuricanozturk01/Book-Sales-Platform/assets/62218588/fda3b0b6-c0c4-48c0-9379-30685e779bf7
-
+### UI
+https://github.com/nuricanozturk01/Book-Sales-Platform/assets/62218588/797956fc-8be9-4f84-a757-163de4a52996
 
 ## Components Description
 
