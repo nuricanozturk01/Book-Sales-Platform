@@ -55,4 +55,13 @@ public class KafkaConsumer
         }
         else System.err.println(stockInfo.bookName() + " is available on stock.");
     }
+
+    @KafkaListener(topics = "${spring.kafka.order-status-info-topic-name}",
+            groupId = "${spring.kafka.consumer.order-status-info-group-id}",
+            containerFactory = "configOrderStatusInfoKafkaListener")
+    public void consumeOrderStatusInfo(StockInfo stockInfo)
+    {
+        m_orderService.removeBookByBookId(stockInfo.bookId());
+        System.err.println(stockInfo.bookName() + " is out of stock. It is removed from db.");
+    }
 }
