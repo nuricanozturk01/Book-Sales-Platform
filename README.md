@@ -13,8 +13,6 @@ client-server communication, and Apache Kafka for handling message streams betwe
 
 ![diagram](https://github.com/nuricanozturk01/Book-Sales-Platform/assets/62218588/55e75632-2b7b-4626-bd59-f76f0e190a4b)
 
-
-
 ## Components Description
 
 ### API Gateway
@@ -81,9 +79,19 @@ client-server communication, and Apache Kafka for handling message streams betwe
 
 ## Technologies Used
 
-- **Spring Boot**: Primary framework for creating microservices.
+- **Java 17**
+- **Spring Framework 6**:
+- **Spring Boot 3.1.6**: Primary framework for creating microservices.
 - **WebSocket**: For real-time bi-directional communication between client and server.
 - **Apache Kafka**: For handling distributed streaming of messages.
+- **PostgreSQL**: For relational databases.
+- **MongoDB**: For non-relational databases.
+- **Apache Kafka**: For Message Broker.
+- **Spring Cloud Stream**: For building highly scalable event-driven microservices connected with shared messaging
+  systems.
+- **Spring Cloud Gateway**: For API Gateway.
+- **Eureka Server**: For Service Discovery.
+- **Angular**: For Frontend.
 
 ## Running the Services
 
