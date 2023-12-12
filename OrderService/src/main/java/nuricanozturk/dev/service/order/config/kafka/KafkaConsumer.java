@@ -1,6 +1,7 @@
 package nuricanozturk.dev.service.order.config.kafka;
 
 import nuricanozturk.dev.service.order.config.listenerdto.BookInfo;
+import nuricanozturk.dev.service.order.config.listenerdto.BookStatus;
 import nuricanozturk.dev.service.order.config.listenerdto.StockInfo;
 import nuricanozturk.dev.service.order.config.listenerdto.UserInfo;
 import nuricanozturk.dev.service.order.service.OrderService;
@@ -43,10 +44,15 @@ public class KafkaConsumer
         }
     }
 
-
+    // if out of stock, remove book from db
     @KafkaListener(topics = "${spring.kafka.stock-topic-name}", groupId = "${spring.kafka.consumer.stock-group-id}", containerFactory = "configStockInfoKafkaListener")
     public void consumeStockInfo(StockInfo stockInfo)
     {
-        //m_orderService.removeBookByBookId(stockInfo.bookId());
+        if (stockInfo.bookStatus() == BookStatus.FINISHED)
+        {
+            m_orderService.removeBookByBookId(stockInfo.bookId());
+            System.err.println(stockInfo.bookName() + " is out of stock. It is removed from db.");
+        }
+        else System.err.println(stockInfo.bookName() + " is available on stock.");
     }
 }

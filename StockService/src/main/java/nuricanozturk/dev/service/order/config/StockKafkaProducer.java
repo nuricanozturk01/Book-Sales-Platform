@@ -1,7 +1,5 @@
 package nuricanozturk.dev.service.order.config;
 
-import nuricanozturk.dev.service.order.config.producerdto.BookResponseInfo;
-import nuricanozturk.dev.service.order.config.producerdto.OrderResponseInfo;
 import nuricanozturk.dev.service.order.config.producerdto.StockInfo;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,31 +8,27 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
+import static nuricanozturk.dev.service.order.util.BeanName.BOOK_STATUS_TOPIC;
+import static nuricanozturk.dev.service.order.util.BeanName.ORDER_STATUS_TOPIC;
+
 @Service
 public class StockKafkaProducer
 {
     private final NewTopic m_stockTopic;
-    private final NewTopic m_bookStockTopic;
+    private final NewTopic m_stockOrderTopic;
 
-    private final NewTopic m_orderTopic;
+    private final NewTopic m_bookStatusTopic;
     private final KafkaTemplate<String, StockInfo> m_kafkaProducer;
-    private final KafkaTemplate<String, BookResponseInfo> m_bookKafkaProducer;
-    private final KafkaTemplate<String, OrderResponseInfo> m_orderKafkaProducer;
 
-
-    public StockKafkaProducer(@Qualifier("book-stock-topic") NewTopic bookStockTopic,
-                              @Qualifier("stock-info-topic") NewTopic stockTopic,
-                              @Qualifier("order-stock-topic") NewTopic orderTopic,
-                              KafkaTemplate<String, StockInfo> kafkaProducer,
-                              KafkaTemplate<String, BookResponseInfo> bookKafkaProducer,
-                              KafkaTemplate<String, OrderResponseInfo> orderKafkaProducer)
+    public StockKafkaProducer(@Qualifier(ORDER_STATUS_TOPIC) NewTopic stockOrderTopic,
+                              @Qualifier(BOOK_STATUS_TOPIC) NewTopic bookStatusTopic,
+                              NewTopic stockTopic,
+                              KafkaTemplate<String, StockInfo> kafkaProducer)
     {
         m_stockTopic = stockTopic;
-        m_bookStockTopic = bookStockTopic;
-        m_orderTopic = orderTopic;
+        m_stockOrderTopic = stockOrderTopic;
+        m_bookStatusTopic = bookStatusTopic;
         m_kafkaProducer = kafkaProducer;
-        m_bookKafkaProducer = bookKafkaProducer;
-        m_orderKafkaProducer = orderKafkaProducer;
     }
 
     public void publishStockInfo(StockInfo stockInfo)
@@ -47,23 +41,23 @@ public class StockKafkaProducer
         m_kafkaProducer.send(message);
     }
 
-    public void publishBookInfo(BookResponseInfo bookInfo)
+    public void publishStockOrderInfo(StockInfo stockInfo)
     {
         var message = MessageBuilder
-                .withPayload(bookInfo)
-                .setHeader(KafkaHeaders.TOPIC, m_bookStockTopic.name())
+                .withPayload(stockInfo)
+                .setHeader(KafkaHeaders.TOPIC, m_stockOrderTopic.name())
                 .build();
 
-        m_bookKafkaProducer.send(message);
+        m_kafkaProducer.send(message);
     }
 
-    public void publishOrderResponseInfo(OrderResponseInfo orderResponseInfo)
+    public void publishBookStatusInfo(StockInfo stockInfo)
     {
         var message = MessageBuilder
-                .withPayload(orderResponseInfo)
-                .setHeader(KafkaHeaders.TOPIC, m_orderTopic.name())
+                .withPayload(stockInfo)
+                .setHeader(KafkaHeaders.TOPIC, m_bookStatusTopic.name())
                 .build();
 
-        m_orderKafkaProducer.send(message);
+        m_kafkaProducer.send(message);
     }
 }

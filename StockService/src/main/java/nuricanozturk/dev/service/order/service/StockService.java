@@ -3,8 +3,6 @@ package nuricanozturk.dev.service.order.service;
 import nuricanozturk.dev.service.order.config.StockKafkaProducer;
 import nuricanozturk.dev.service.order.config.listenerdto.BookStockInfo;
 import nuricanozturk.dev.service.order.config.listenerdto.OrderStockInfo;
-import nuricanozturk.dev.service.order.config.producerdto.BookResponseInfo;
-import nuricanozturk.dev.service.order.config.producerdto.OrderResponseInfo;
 import nuricanozturk.dev.service.order.config.producerdto.StockInfo;
 import nuricanozturk.dev.service.order.dto.BookStatus;
 import nuricanozturk.dev.service.order.entity.Stock;
@@ -35,10 +33,11 @@ public class StockService
 
         if (stock.isEmpty() || stock.get().getStock() <= 0)
         {
+            System.out.println("no stock!");
             failPayment(orderStockInfo);
             return;
         }
-
+        System.out.println("on stock!");
         // route to payment service
         stock.get().reduceStock();
         m_stockRepository.save(stock.get());
@@ -47,17 +46,18 @@ public class StockService
 
     private void preparePayment(OrderStockInfo orderStockInfo)
     {
-        var stockInfo = new StockInfo(orderStockInfo.userId(), orderStockInfo.bookId(), orderStockInfo.bookName(), orderStockInfo.price());
+        var stockInfo = new StockInfo(orderStockInfo.userId(), orderStockInfo.bookId(), orderStockInfo.bookName(), orderStockInfo.price(),
+                BookStatus.AVAILABLE, "available on stock!");
         m_stockKafkaProducer.publishStockInfo(stockInfo);
     }
 
     // Send message to user service to fail order and send message to book service to finish book
     private void failPayment(OrderStockInfo orderStockInfo)
     {
-        var orderResponse = new OrderResponseInfo(orderStockInfo.userId(), orderStockInfo.bookId(), "OUT OF STOCK");
-        var bookResponse = new BookResponseInfo(orderStockInfo.bookId(), BookStatus.FINISHED);
+        var stockInfo = new StockInfo(orderStockInfo.userId(), orderStockInfo.bookId(), orderStockInfo.bookName(), orderStockInfo.price(),
+                BookStatus.FINISHED, "finish on stock!");
 
-        m_stockKafkaProducer.publishOrderResponseInfo(orderResponse);
-        m_stockKafkaProducer.publishBookInfo(bookResponse);
+        m_stockKafkaProducer.publishStockOrderInfo(stockInfo);
+        m_stockKafkaProducer.publishBookStatusInfo(stockInfo);
     }
 }

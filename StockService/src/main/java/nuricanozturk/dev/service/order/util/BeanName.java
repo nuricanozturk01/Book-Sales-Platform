@@ -6,6 +6,6 @@ public final class BeanName
     {
     }
 
-    public static final String STOCK_BOOK_TOPIC = "book-stock-topic";
-    public static final String STOCK_ORDER_TOPIC = "order-stock-topic";
+    public static final String BOOK_STATUS_TOPIC = "book-stock-topic";
+    public static final String ORDER_STATUS_TOPIC = "order-stock-topic";
 }

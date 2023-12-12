@@ -87,6 +87,5 @@ public class PaymentService
 
         var paymentInfo = new PaymentInfo(user.getUserId(), stockInfo.bookId(), stockInfo.bookName(), stockInfo.price(), user.getBudget());
         m_paymentProducer.publishPaymentInfo(paymentInfo);
-        throw new DataServiceException("Insufficient balance!");
     }
 }

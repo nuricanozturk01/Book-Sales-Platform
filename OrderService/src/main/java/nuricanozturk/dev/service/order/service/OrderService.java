@@ -42,7 +42,6 @@ public class OrderService
 
         if (user.isEmpty())
             throw new DataServiceException("User could not be found!");
-        user.get().setBudget(userInfo.budget());
         user.get().setOperationStatus(userInfo.operationStatus());
         doForDataService(() -> m_orderServiceHelper.saveUser(user.get()), "User could not be saved!");
     }
@@ -74,6 +73,7 @@ public class OrderService
         m_orderServiceHelper.removeBook(book.get());
     }
 
+    // publish orderStock info for stock service
     public void buyBook(UUID bookId, UUID userId)
     {
         var user = doForDataService(() -> m_orderServiceHelper.findUserById(userId), "OrderService::buyUser");

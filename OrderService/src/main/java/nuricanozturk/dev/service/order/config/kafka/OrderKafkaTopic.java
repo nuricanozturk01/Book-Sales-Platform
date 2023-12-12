@@ -16,10 +16,4 @@ public class OrderKafkaTopic
     {
         return TopicBuilder.name(topicName).build();
     }
-
- /*   @Bean
-    public NewTopic provideStockTopic(@Value("${spring.kafka.stock-producer-topic-name}") String topicName)
-    {
-        return TopicBuilder.name(topicName).build();
-    }*/
 }

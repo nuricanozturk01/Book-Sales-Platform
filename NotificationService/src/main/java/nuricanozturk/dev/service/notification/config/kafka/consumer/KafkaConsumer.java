@@ -16,18 +16,21 @@ public class KafkaConsumer
         m_notificationService = notificationService;
     }
 
-    @KafkaListener(topics = "${spring.kafka.order-info-topic-name}",
+    @KafkaListener(topics = "${spring.kafka.order-status-info-topic-name}",
             groupId = "${spring.kafka.consumer.order-info-group-id}",
             containerFactory = "configOrderInfoKafkaListener")
-    public void consumeOrderStockInfo(OrderStockInfo orderStockInfo)
+    public void consumeOrderStockInfo(StockInfo stockInfo)
     {
-        var saveDTO = new NotificationSaveDTO(orderStockInfo.userId(),
-                orderStockInfo.bookId(),
-                orderStockInfo.bookName(),
-                PaymentStatus.FAIL, 0, null);
+        if (stockInfo.bookStatus() == BookStatus.FINISHED) {
+            var saveDTO = new NotificationSaveDTO(stockInfo.userId(),
+                    stockInfo.bookId(),
+                    stockInfo.bookName(),
+                    PaymentStatus.FAIL, 0, -1);
 
-        m_notificationService.saveNotification(saveDTO);
-        System.err.println(saveDTO);
+            m_notificationService.saveNotification(saveDTO);
+            System.err.println(saveDTO);
+        }
+
     }
 
     @KafkaListener(topics = "${spring.kafka.payment-topic-name}",

@@ -1,6 +1,8 @@
 package nuricanozturk.dev.service.book.dal;
 
 
+import callofproject.dev.library.exception.service.DataServiceException;
+import nuricanozturk.dev.service.book.config.listener.StockInfo;
 import nuricanozturk.dev.service.book.entity.Book;
 import nuricanozturk.dev.service.book.repository.IBookRepository;
 import org.springframework.context.annotation.Lazy;
@@ -31,6 +33,15 @@ public class BookRepositoryServiceHelper
         book.setPublisherName(convert(book.getPublisherName()));
         book.setBookName(convert(book.getBookName()));
         return m_bookRepository.save(book);
+    }
+
+    public void removeBook(StockInfo stockInfo)
+    {
+        var savedBook = m_bookRepository.findById(stockInfo.bookId());
+        if (savedBook.isEmpty())
+            throw new DataServiceException("Book not found!");
+
+        m_bookRepository.delete(savedBook.get());
     }
 
     public Iterable<Book> saveMultipleBook(List<Book> books)

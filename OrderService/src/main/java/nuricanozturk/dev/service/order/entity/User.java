@@ -16,7 +16,6 @@ public class User
     @Column(name = "user_id")
     private UUID userId;
     private String username;
-    private double budget;
     @Enumerated(EnumType.STRING)
     @Column(name = "operation_status")
     private UserOperationStatus operationStatus;
@@ -36,11 +35,10 @@ public class User
         orders.add(order);
     }
 
-    public User(UUID userId, String username, double budget, UserOperationStatus operationStatus)
+    public User(UUID userId, String username, UserOperationStatus operationStatus)
     {
         this.userId = userId;
         this.username = username;
-        this.budget = budget;
         this.operationStatus = operationStatus;
     }
 
@@ -64,15 +62,6 @@ public class User
         this.username = username;
     }
 
-    public double getBudget()
-    {
-        return budget;
-    }
-
-    public void setBudget(double budget)
-    {
-        this.budget = budget;
-    }
 
     public UserOperationStatus getOperationStatus()
     {

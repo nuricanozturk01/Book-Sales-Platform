@@ -28,15 +28,15 @@ public class OrderConsumerConfig
     private String m_offsetResetConfig;
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, OrderStockInfo> configOrderInfoKafkaListener()
+    public ConcurrentKafkaListenerContainerFactory<String, StockInfo> configOrderInfoKafkaListener()
     {
-        var factory = new ConcurrentKafkaListenerContainerFactory<String, OrderStockInfo>();
+        var factory = new ConcurrentKafkaListenerContainerFactory<String, StockInfo>();
         factory.setConsumerFactory(orderInfoConsumerConfig());
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<String, OrderStockInfo> orderInfoConsumerConfig()
+    public ConsumerFactory<String, StockInfo> orderInfoConsumerConfig()
     {
         var orderProperties = new HashMap<String, Object>();
         orderProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, m_servers);
@@ -45,7 +45,7 @@ public class OrderConsumerConfig
         orderProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         orderProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
         orderProperties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
-        orderProperties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, OrderStockInfo.class);
+        orderProperties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, StockInfo.class);
         orderProperties.put("spring.json.use.type.headers", false);
         return new DefaultKafkaConsumerFactory<>(orderProperties);
     }

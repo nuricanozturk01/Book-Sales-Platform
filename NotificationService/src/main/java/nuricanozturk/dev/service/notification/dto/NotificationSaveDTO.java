@@ -3,7 +3,7 @@ package nuricanozturk.dev.service.notification.dto;
 import java.util.UUID;
 
 public record NotificationSaveDTO(UUID userId, UUID bookId, String bookName,
-                                  PaymentStatus paymentStatus, double cost, Double availableBalance)
+                                  PaymentStatus paymentStatus, double cost, double availableBalance)
 {
     @Override
     public String toString()
