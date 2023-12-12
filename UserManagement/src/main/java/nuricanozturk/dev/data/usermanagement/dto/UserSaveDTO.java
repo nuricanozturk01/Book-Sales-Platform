@@ -8,8 +8,7 @@ public record UserSaveDTO(
         Gender gender,
         String username,
         String password,
-        double budget
-)
+        double budget)
 {
 
 }
