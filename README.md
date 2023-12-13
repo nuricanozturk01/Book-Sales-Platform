@@ -112,9 +112,12 @@ backend capable of managing a complex flow of data across various services and d
 
 # Important Notes
 
-This project was made to learn Apache Kafka. Most details other than Kafka have been overlooked (Example: security,
+ - This project was made to learn Apache Kafka. Most details other than Kafka have been overlooked (Example: security,
 etc..).
 In this project, the basic features of Kafka have been used. A simple log tracking system that will support Kafka has
 been made.
 The sole purpose of the Log Tracking system is to send the data coming from Kafka to Angular via websocket and display
 the logs in real time.
+ - The project is not complete. It is still in development. The project will be completed in the future.
+ - The project is not suitable for production. It is not recommended to use it in production.
+ - ### I will update the project when I learnt new things about Apache Kafka, Websocket, Reactive Programming, etc..
